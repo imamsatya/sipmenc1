@@ -141,22 +141,26 @@ class IpdsController extends Controller
         return redirect('dashboard');
     }
     public function submitMultipleGudang(Request $request){
+        // dd($request);
+        
         $dokumen = New Dokumen;
         $user = Auth::user();
 
         $date = Carbon::now();
         //Get date and time
         $waktu = $date->toDateTimeString();
-        $array = (array) $request;
+        $array = (array) $request[0];
         // dd($array['request'], gettype($array));
         // dd($request[1]['id']);
-        foreach ($array['request'] as $item => $value ) {
+        foreach ($array as $item => $value ) {
 
             // dd( $item, $value['id']);
             $key = $dokumen->where('id', $value['id'])->first();
             $key->status = 'Gudang Akhir';
             $key->petugas = $user->name;
-            $key->updated_at_custom = $waktu;     
+            $key->updated_at_custom = $waktu; 
+            $key->nogudang_index = $request[2];
+            $key->nosurat_string = $request[1];    
             $key->save();
         }
         $dokumens = new Dokumen;

@@ -19622,13 +19622,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/Authenticated */ "./resources/js/Layouts/Authenticated.vue");
-/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
-/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var dom_to_image__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dom-to-image */ "./node_modules/dom-to-image/src/dom-to-image.js");
-/* harmony import */ var dom_to_image__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dom_to_image__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/Authenticated */ "./resources/js/Layouts/Authenticated.vue");
+/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var dom_to_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dom-to-image */ "./node_modules/dom-to-image/src/dom-to-image.js");
+/* harmony import */ var dom_to_image__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dom_to_image__WEBPACK_IMPORTED_MODULE_5__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
  // import VueHtml2pdf from 'vue-html2pdf'
 
@@ -19637,7 +19645,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    BreezeAuthenticatedLayout: _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__.default // VueHtml2pdf
+    BreezeAuthenticatedLayout: _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_1__.default // VueHtml2pdf
 
   },
   props: {
@@ -19708,6 +19716,89 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    download: function download() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var htmlDiv, scale;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                htmlDiv = document.getElementById('surat');
+                scale = 1;
+                console.log(scale); //   let userEmail = this.userEmail;
+
+                _context.next = 5;
+                return dom_to_image__WEBPACK_IMPORTED_MODULE_5___default().toPng(htmlDiv, {
+                  height: htmlDiv.offsetHeight * scale,
+                  width: htmlDiv.offsetWidth * scale,
+                  style: {
+                    transform: "scale(" + scale + ")",
+                    transformOrigin: "top left",
+                    width: htmlDiv.offsetWidth + "px",
+                    height: htmlDiv.offsetHeight + "px"
+                  }
+                }).then(function (dataUrl) {
+                  var htmlImage = new Image();
+                  htmlImage.src = dataUrl;
+                  var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_3__.jsPDF('p', 'mm', 'a4'); // pdf.setFontStyle("Bold");
+                  // pdf.text(325, 40);
+
+                  // pdf.setFontStyle("Bold");
+                  // pdf.text(325, 40);
+                  pdf.addImage(htmlImage, 'JPEG', 0, 0);
+                  pdf.save(_this.nosuratString + '.pdf');
+                })["catch"](function (error) {
+                  console.error('Error: ', error);
+                });
+
+              case 5:
+                _context.next = 7;
+                return _this.$inertia.post('/submitmultiplegudang', [_this.selectedDokumens, _this.nosuratString, _this.currentIndex], {
+                  onStart: function onStart() {
+                    _this.sending = true;
+                  },
+                  onProgress: function onProgress(progressEvent) {
+                    //DATA TERSEBUT AKAN DI ASSIGN KE VARIABLE progressBar
+                    _this.progressBar = parseInt(Math.round(progressEvent.loaded * 100 / progressEvent.total));
+                    console.log(progressEvent.loaded);
+                    console.log('Upload Progress: ', _this.progressBar);
+                  },
+                  onSuccess: function onSuccess(response) {
+                    // Handle success event
+                    console.log('onSuccess', response); // this.$toast.add({severity:'success', summary: 'Yeay, Berhasil', detail:'Pesan Berhasil Dikirim', life: 3000});
+
+                    // this.$toast.add({severity:'success', summary: 'Yeay, Berhasil', detail:'Pesan Berhasil Dikirim', life: 3000});
+                    _this.sending = false;
+                    _this.selectedDokumens = [];
+                  },
+                  onError: function onError(errors) {
+                    // Handle validation errors
+                    console.log('onError', errors);
+                    _this.sending = false;
+                  },
+                  onFinish: function onFinish() {
+                    _this.sending = false;
+                  }
+                });
+
+              case 7:
+                _this.$toast.add({
+                  severity: 'info',
+                  summary: 'Confirmed',
+                  detail: ' Berhasil di Gudang',
+                  life: 3000
+                });
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
     //      generateReport () {
     //     this.$refs.html2Pdf.generatePdf()
     // },
@@ -19783,7 +19874,7 @@ __webpack_require__.r(__webpack_exports__);
     //             })
     // },
     guillotineDialog: function guillotineDialog(data) {
-      var _this = this;
+      var _this2 = this;
 
       // const target_copy = Object.assign({}, this.selectedDokumens);
       // console.log(target_copy[0].id)
@@ -19795,59 +19886,7 @@ __webpack_require__.r(__webpack_exports__);
         accept: function accept() {
           console.log(data.id);
 
-          _this.$inertia.post('/submitguillotine', data, {
-            onStart: function onStart() {
-              _this.sending = true;
-            },
-            onProgress: function onProgress(progressEvent) {
-              //DATA TERSEBUT AKAN DI ASSIGN KE VARIABLE progressBar
-              _this.progressBar = parseInt(Math.round(progressEvent.loaded * 100 / progressEvent.total));
-              console.log(progressEvent.loaded);
-              console.log('Upload Progress: ', _this.progressBar);
-            },
-            onSuccess: function onSuccess(response) {
-              // Handle success event
-              console.log('onSuccess', response); // this.$toast.add({severity:'success', summary: 'Yeay, Berhasil', detail:'Pesan Berhasil Dikirim', life: 3000});
-
-              _this.sending = false;
-            },
-            onError: function onError(errors) {
-              // Handle validation errors
-              console.log('onError', errors);
-              _this.sending = false;
-            },
-            onFinish: function onFinish() {
-              _this.sending = false;
-            }
-          });
-
-          _this.$toast.add({
-            severity: 'info',
-            summary: 'Confirmed',
-            detail: 'Berhasil di Guillotine',
-            life: 3000
-          });
-        },
-        reject: function reject() {
-          _this.$toast.add({
-            severity: 'error',
-            summary: 'Rejected',
-            detail: 'You have rejected',
-            life: 3000
-          });
-        }
-      });
-    },
-    submitmultipleTerima: function submitmultipleTerima() {
-      var _this2 = this;
-
-      this.$confirm.require({
-        message: 'Apakah yakin akan diterima semua?',
-        header: 'Multiple Guillotine Confirmation',
-        icon: 'pi pi-info-circle',
-        acceptClass: 'p-button-primary',
-        accept: function accept() {
-          _this2.$inertia.post('/submitmultipleterima', _this2.selectedDokumens, {
+          _this2.$inertia.post('/submitguillotine', data, {
             onStart: function onStart() {
               _this2.sending = true;
             },
@@ -19862,7 +19901,6 @@ __webpack_require__.r(__webpack_exports__);
               console.log('onSuccess', response); // this.$toast.add({severity:'success', summary: 'Yeay, Berhasil', detail:'Pesan Berhasil Dikirim', life: 3000});
 
               _this2.sending = false;
-              _this2.selectedDokumens = [];
             },
             onError: function onError(errors) {
               // Handle validation errors
@@ -19877,7 +19915,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$toast.add({
             severity: 'info',
             summary: 'Confirmed',
-            detail: ' Berhasil di Guillotine',
+            detail: 'Berhasil di Guillotine',
             life: 3000
           });
         },
@@ -19891,16 +19929,16 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    submitMultipleBack: function submitMultipleBack() {
+    submitmultipleTerima: function submitmultipleTerima() {
       var _this3 = this;
 
       this.$confirm.require({
-        message: 'Apakah yakin akan di back step semua?',
-        header: 'Multiple Back Step Confirmation',
+        message: 'Apakah yakin akan diterima semua?',
+        header: 'Multiple Acceptance Confirmation',
         icon: 'pi pi-info-circle',
         acceptClass: 'p-button-primary',
         accept: function accept() {
-          _this3.$inertia.post('/submitmultiplebackstep2', _this3.selectedDokumens, {
+          _this3.$inertia.post('/submitmultipleterima', _this3.selectedDokumens, {
             onStart: function onStart() {
               _this3.sending = true;
             },
@@ -19930,7 +19968,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.$toast.add({
             severity: 'info',
             summary: 'Confirmed',
-            detail: ' Berhasil di Guillotine',
+            detail: ' Berhasil di Terima',
             life: 3000
           });
         },
@@ -19944,16 +19982,16 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    submitmultipleGudang: function submitmultipleGudang() {
+    submitMultipleBack: function submitMultipleBack() {
       var _this4 = this;
 
       this.$confirm.require({
-        message: 'Apakah yakin akan dikirim ke Gudang semua?',
-        header: 'Multiple Gudang Confirmation',
+        message: 'Apakah yakin akan di back step semua?',
+        header: 'Multiple Back Step Confirmation',
         icon: 'pi pi-info-circle',
         acceptClass: 'p-button-primary',
         accept: function accept() {
-          _this4.$inertia.post('/submitmultiplegudang', _this4.selectedDokumens, {
+          _this4.$inertia.post('/submitmultiplebackstep2', _this4.selectedDokumens, {
             onStart: function onStart() {
               _this4.sending = true;
             },
@@ -19983,7 +20021,7 @@ __webpack_require__.r(__webpack_exports__);
           _this4.$toast.add({
             severity: 'info',
             summary: 'Confirmed',
-            detail: ' Berhasil di Gudang',
+            detail: ' Berhasil di Guillotine',
             life: 3000
           });
         },
@@ -19997,11 +20035,64 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    submitmultipleGudang: function submitmultipleGudang() {
+      var _this5 = this;
+
+      // this.$confirm.require({
+      //     message: 'Apakah yakin akan dikirim ke Gudang semua?',
+      //     header: 'Multiple Gudang Confirmation',
+      //     icon: 'pi pi-info-circle',
+      //     acceptClass: 'p-button-primary',
+      //     accept: () => {
+      this.$inertia.post('/submitmultiplegudang', [this.selectedDokumens, this.nosuratString, this.currentIndex], {
+        onStart: function onStart() {
+          _this5.sending = true;
+        },
+        onProgress: function onProgress(progressEvent) {
+          //DATA TERSEBUT AKAN DI ASSIGN KE VARIABLE progressBar
+          _this5.progressBar = parseInt(Math.round(progressEvent.loaded * 100 / progressEvent.total));
+          console.log(progressEvent.loaded);
+          console.log('Upload Progress: ', _this5.progressBar);
+        },
+        onSuccess: function onSuccess(response) {
+          // Handle success event
+          console.log('onSuccess', response); // this.$toast.add({severity:'success', summary: 'Yeay, Berhasil', detail:'Pesan Berhasil Dikirim', life: 3000});
+
+          _this5.sending = false;
+          _this5.selectedDokumens = [];
+        },
+        onError: function onError(errors) {
+          // Handle validation errors
+          console.log('onError', errors);
+          _this5.sending = false;
+        },
+        onFinish: function onFinish() {
+          _this5.sending = false;
+
+          _this5.download();
+        }
+      });
+      this.$toast.add({
+        severity: 'info',
+        summary: 'Confirmed',
+        detail: ' Berhasil di Gudang',
+        life: 3000
+      }); //     },
+      //     reject: () => {
+      //         this.$toast.add({
+      //             severity: 'error',
+      //             summary: 'Rejected',
+      //             detail: 'You have rejected',
+      //             life: 3000
+      //         });
+      //     }
+      // });
+    },
     initFilters: function initFilters() {
       this.filters = {
         'global': {
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_2__.FilterMatchMode.CONTAINS
         }
       };
     }
@@ -21840,6 +21931,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _Picture1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Picture1.png */ "./resources/Picture1.png");
+
 
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
@@ -21892,7 +21985,253 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
+var _hoisted_13 = {
+  key: 0,
+  "class": "p-grid p-jc-center"
+};
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-2"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_15 = {
+  "class": "p-col-8"
+};
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_18 = {
+  id: "surat",
+  ref: "suratpengantar",
+  "class": "text-black bg-gray-200",
+  style: {
+    "font-size": "12px",
+    "width": "793px"
+  }
+};
+var _hoisted_19 = {
+  "class": "p-6 bg-white border-b border-gray-200"
+};
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-grid p-jc-between"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-3"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  src: _Picture1_png__WEBPACK_IMPORTED_MODULE_1__.default,
+  alt: "",
+  "class": "w-96 h-14",
+  srcset: ""
+})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-6"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-3"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_23 = {
+  style: {
+    "width": "300px"
+  }
+};
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th")], -1
+/* HOISTED */
+);
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, "Nomor", -1
+/* HOISTED */
+);
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, "Sifat"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, ": Biasa")], -1
+/* HOISTED */
+);
+
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, "Lampiran"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, ": -")], -1
+/* HOISTED */
+);
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, "Hal"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, ": Surat Pengantar")], -1
+/* HOISTED */
+);
+
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Yth. Penanggung Jawab Gudang BPS Provinsi Sulawesi Tengah "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Di – "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tempat")], -1
+/* HOISTED */
+);
+
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "    Berikut kami kirimkan daftar dokumen c1 yang telah di guillotine", -1
+/* HOISTED */
+);
+
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_36 = {
+  style: {
+    "width": "500px",
+    "border": "1px solid black"
+  }
+};
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", {
+  style: {
+    "border": "1px solid black"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
+  style: {
+    "border": "1px solid black"
+  }
+}, "Kode Administrasi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
+  style: {
+    "border": "1px solid black"
+  }
+}, "Jumlah Set Hitung"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
+  style: {
+    "border": "1px solid black"
+  }
+}, "Petugas"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
+  style: {
+    "border": "1px solid black"
+  }
+}, "Tanggal")], -1
+/* HOISTED */
+);
+
+var _hoisted_38 = {
+  style: {
+    "border": "1px solid black"
+  }
+};
+var _hoisted_39 = {
+  style: {
+    "border": "1px solid black"
+  }
+};
+var _hoisted_40 = {
+  style: {
+    "border": "1px solid black"
+  }
+};
+var _hoisted_41 = {
+  style: {
+    "border": "1px solid black"
+  }
+};
+var _hoisted_42 = {
+  style: {
+    "border": "1px solid black"
+  }
+};
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "     Demikian disampaikan untuk diperhatikan. Terima Kasih. ", -1
+/* HOISTED */
+);
+
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_49 = {
+  "class": "p-grid p-jc-between"
+};
+
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-4"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p>\n                                    Penerima\n                                </p>\n                                <br><br><br><br>\n                                <p>\n                                    ...............\n                                </p> ")], -1
+/* HOISTED */
+);
+
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-4"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_52 = {
+  "class": "p-col-4"
+};
+
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Penanggung Jawab ");
+
+var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "p-col-2"
+}, null, -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
   var _component_Toast = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Toast");
 
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
@@ -21936,7 +22275,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: $options.submitMultipleBack
           }, null, 8
           /* PROPS */
-          , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Button :disabled=\"multipleGudang\" label=\"Kirim IPDS\" icon=\"pi pi-send\"\n                                    class=\"p-button-success p-mr-2\" @click=\"submitmultipleGudang\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Button label=\"Delete\" icon=\"pi pi-trash\" class=\"p-button-danger\" @click=\"confirmDeleteSelected\" :disabled=\"!selectedProducts || !selectedProducts.length\" /> ")];
+          , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Button :disabled=\"multipleGudang\" label=\"Gudang Akhir\" icon=\"pi pi-home\"\n                                    class=\"p-button-success p-mr-2\" @click=\"submitmultipleGudang\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Button label=\"Delete\" icon=\"pi pi-trash\" class=\"p-button-danger\" @click=\"confirmDeleteSelected\" :disabled=\"!selectedProducts || !selectedProducts.length\" /> ")];
         }),
         right: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload mode=\"basic\" accept=\"image/*\" :maxFileSize=\"1000000\" label=\"Import\" chooseLabel=\"Import\" class=\"p-mr-2 p-d-inline-block\" />\n                    <Button label=\"Export\" icon=\"pi pi-upload\" class=\"p-button-help\" @click=\"exportCSV($event)\"  /> ")];
@@ -22123,7 +22462,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["value", "selection", "filters"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ConfirmDialog), _hoisted_11, _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button @click=\"download\">Tes PDF</button> ")])])])])];
+      , ["value", "selection", "filters"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ConfirmDialog), _hoisted_11, _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button @click=\"download\">Tes PDF</button> ")])])])]), $data.multipleGudang == false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Button class=\"p-button-success\" label=\"Download PDF\" @click=\"download\" icon=\"pi pi-download\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+        disabled: $data.multipleGudang,
+        label: "Gudang Akhir",
+        icon: "pi pi-home",
+        "class": "p-button-success p-mr-2",
+        onClick: $options.download
+      }, null, 8
+      /* PROPS */
+      , ["disabled", "onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1>Surat Pengantar</h1> "), _hoisted_16, _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [_hoisted_20, _hoisted_21, _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.nosuratString), 1
+      /* TEXT */
+      )]), _hoisted_26, _hoisted_27, _hoisted_28])]), _hoisted_29, _hoisted_30, _hoisted_31, _hoisted_32, _hoisted_33, _hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_36, [_hoisted_37, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_this.selectedDokumens, function (item) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.kodeAdmin), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.jumlahSetHitung), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.petugas), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.updated_at_custom), 1
+        /* TEXT */
+        )]);
+      }), 256
+      /* UNKEYED_FRAGMENT */
+      ))]), _hoisted_43, _hoisted_44, _hoisted_45, _hoisted_46, _hoisted_47, _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_49, [_hoisted_50, _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Palu, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.datenow) + " ", 1
+      /* TEXT */
+      ), _hoisted_53, _hoisted_54]), _hoisted_55, _hoisted_56, _hoisted_57, _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.user.name), 1
+      /* TEXT */
+      )])])])], 512
+      /* NEED_PATCH */
+      )]), _hoisted_59])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1
     /* STABLE */

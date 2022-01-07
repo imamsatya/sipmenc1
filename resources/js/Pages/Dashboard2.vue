@@ -19,7 +19,7 @@
                                     class="p-button-danger p-mr-2" @click="submitmultipleTerima" /> -->
                                     <Button  label="Back Step" icon="pi pi-arrow-left"
                                     class="p-button-danger p-mr-2" @click="submitMultipleBack" />
-                                <!-- <Button :disabled="multipleGudang" label="Kirim IPDS" icon="pi pi-send"
+                                <!-- <Button :disabled="multipleGudang" label="Gudang Akhir" icon="pi pi-home"
                                     class="p-button-success p-mr-2" @click="submitmultipleGudang" /> -->
                                 <!-- <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length" /> -->
                             </template>
@@ -60,7 +60,7 @@
                                     <!-- {{slotProps.data}} -->
                     
 
-  <Button label="Gudang" v-if="slotProps.data.status == 'Gudang'" icon="pi pi-book" class="p-button-sm p-button-rounded" style="background-color: #b3e5fc; color: #23547b; font-weight: 700;font-size: 12px;letter-spacing: .3px;"  /> 
+                                    <Button label="Gudang" v-if="slotProps.data.status == 'Gudang'" icon="pi pi-book" class="p-button-sm p-button-rounded" style="background-color: #b3e5fc; color: #23547b; font-weight: 700;font-size: 12px;letter-spacing: .3px;"  /> 
                                     <Button label="Guillotine" v-if="slotProps.data.status == 'Guillotine'" icon="pi pi-inbox" class="p-button-sm p-button-rounded" style="background-color: #FEEDAF; color: #8A5340;font-weight: 700;font-size: 12px;letter-spacing: .3px;"  /> 
                                     <Button label="Kirim IPDS" v-if="slotProps.data.status == 'Kirim IPDS'" icon="pi pi-envelope" class="p-button-sm p-button-rounded" style="background-color: #ECCFFF; color: #694382;font-weight: 700;font-size: 12px;letter-spacing: .3px;"  /> 
                                     <Button label="Diterima IPDS" v-if="slotProps.data.status == 'Diterima IPDS'" icon="pi pi-thumbs-up" class="p-button-sm p-button-rounded" style="background-color:  #FFD8B2; color: #805B36;font-weight: 700;font-size: 12px;letter-spacing: .3px;"  />
@@ -103,6 +103,131 @@
 
                     </div>
                 </div>
+            </div>
+        </div>
+
+            <div class="p-grid p-jc-center" v-if="multipleGudang == false">
+            <div class="p-col-2">
+
+            </div>
+            <div class="p-col-8">
+                <!-- <Button class="p-button-success" label="Download PDF" @click="download" icon="pi pi-download" /> -->
+                <Button :disabled="multipleGudang" label="Gudang Akhir" icon="pi pi-home"
+                                    class="p-button-success p-mr-2" @click="download" />
+                <!-- <h1>Surat Pengantar</h1> -->
+                <br><br>
+
+
+                <div id="surat" ref="suratpengantar" class="text-black bg-gray-200"
+                    style="font-size: 12px; width: 793px;">
+
+                    <div class="p-6 bg-white border-b border-gray-200">
+
+                        <div class="p-grid p-jc-between">
+                            <div class="p-col-3">
+                                <img src="..\..\Picture1.png" alt="" class="w-96 h-14" srcset="">
+                            </div>
+                            <div class="p-col-6">
+
+                            </div>
+                            <div class="p-col-3">
+
+                            </div>
+                        </div>
+                        <br><br>
+                        <p>
+                            <table style="width:300px">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                                <tr>
+                                    <td>Nomor</td>
+                                    <td>: {{this.nosuratString}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sifat</td>
+                                    <td>: Biasa</td>
+                                </tr>
+                                <tr>
+                                    <td>Lampiran</td>
+                                    <td>: -</td>
+                                </tr>
+                                <tr>
+                                    <td>Hal</td>
+                                    <td>: Surat Pengantar</td>
+                                </tr>
+                            </table>
+                        </p>
+                        <br><br>
+
+                        <p>Yth. Penanggung Jawab Gudang BPS Provinsi Sulawesi Tengah <br>
+                            Di – <br>
+                            Tempat</p>
+                        <br><br>
+                        <p> &nbsp;&nbsp; Berikut kami kirimkan daftar dokumen c1 yang telah di guillotine</p>
+                        <br>
+
+                        <table style="width: 500px; border: 1px solid black;">
+                            <tr style="border: 1px solid black;">
+                                <th style="border: 1px solid black;">Kode Administrasi</th>
+                                <th style="border: 1px solid black;">Jumlah Set Hitung</th>
+                                <th style="border: 1px solid black;">Petugas</th>
+                                <th style="border: 1px solid black;">Tanggal</th>
+
+                            </tr>
+                            <tr style="border: 1px solid black;" v-for="item in this.selectedDokumens">
+                                <td style="border: 1px solid black;">{{item.kodeAdmin}}</td>
+                                <td style="border: 1px solid black;">{{item.jumlahSetHitung}}</td>
+                                <td style="border: 1px solid black;">{{item.petugas}}</td>
+                                <td style="border: 1px solid black;">{{item.updated_at_custom}}</td>
+                            </tr>
+
+                        </table>
+
+
+
+                        <br>
+                        <p>
+                            &nbsp; &nbsp; Demikian disampaikan untuk diperhatikan. Terima Kasih.
+                        </p>
+                        <br>
+                        <br><br>
+                        <br>
+                        <div class="p-grid p-jc-between">
+                            <div class="p-col-4">
+                                <!-- <p>
+                                    Penerima
+                                </p>
+                                <br><br><br><br>
+                                <p>
+                                    ...............
+                                </p> -->
+                            </div>
+                            <div class="p-col-4">
+
+                            </div>
+                            <div class="p-col-4">
+                                <p>
+                                   Palu, {{this.datenow}} <br>
+                                    Penanggung Jawab
+                                </p>
+                                <br><br><br><br>
+                                <p>
+                                    {{$page.props.auth.user.name }}
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="p-col-2">
+
             </div>
         </div>
     </breeze-authenticated-layout>
@@ -193,6 +318,80 @@
             }
         },
         methods: {
+             async download() {
+                
+                var htmlDiv = document.getElementById('surat');
+                const scale = 1;
+                console.log(scale);
+                //   let userEmail = this.userEmail;
+               await domtoimage.toPng(htmlDiv,
+                    {
+                        height: htmlDiv.offsetHeight * scale,
+                        width: htmlDiv.offsetWidth * scale,
+                        style: {
+                            transform: "scale(" + scale + ")",
+                            transformOrigin: "top left",
+                            width: htmlDiv.offsetWidth + "px",
+                            height: htmlDiv.offsetHeight + "px"
+                        }
+                    }
+                ).then((dataUrl) => {
+                    var htmlImage = new Image();
+                    htmlImage.src = dataUrl;
+                    var pdf = new jsPDF('p', 'mm', 'a4');
+                    // pdf.setFontStyle("Bold");
+
+                    // pdf.text(325, 40);
+                    pdf.addImage(htmlImage, 'JPEG', 0, 0);
+                    pdf.save(this.nosuratString + '.pdf');
+                }).catch((error) => {
+                    console.error('Error: ', error);
+                });
+
+                await this.$inertia.post('/submitmultiplegudang', [this.selectedDokumens, this
+                            .nosuratString, this.currentIndex
+                        ], {
+                            onStart: () => {
+                                this.sending = true
+                            },
+                            onProgress: (progressEvent) => {
+                                //DATA TERSEBUT AKAN DI ASSIGN KE VARIABLE progressBar
+                                this.progressBar = parseInt(Math.round((progressEvent.loaded *
+                                        100) /
+                                    progressEvent.total))
+                                console.log(progressEvent.loaded)
+                                console.log('Upload Progress: ', this.progressBar)
+                            },
+
+                            onSuccess: (response) => {
+                                // Handle success event
+                                console.log('onSuccess', response)
+                                // this.$toast.add({severity:'success', summary: 'Yeay, Berhasil', detail:'Pesan Berhasil Dikirim', life: 3000});
+
+                                this.sending = false
+                                this.selectedDokumens = []
+
+                            },
+                            onError: (errors) => {
+                                // Handle validation errors
+                                console.log('onError', errors)
+
+                                this.sending = false
+
+                            },
+                            onFinish: () => {
+
+                                this.sending = false
+                               
+                            }
+                        })
+                        this.$toast.add({
+                            severity: 'info',
+                            summary: 'Confirmed',
+                            detail: ' Berhasil di Gudang',
+                            life: 3000
+                        });
+             },
             //      generateReport () {
             //     this.$refs.html2Pdf.generatePdf()
             // },
@@ -341,7 +540,7 @@
             submitmultipleTerima() {
                 this.$confirm.require({
                     message: 'Apakah yakin akan diterima semua?',
-                    header: 'Multiple Guillotine Confirmation',
+                    header: 'Multiple Acceptance Confirmation',
                     icon: 'pi pi-info-circle',
                     acceptClass: 'p-button-primary',
                     accept: () => {
@@ -384,7 +583,7 @@
                         this.$toast.add({
                             severity: 'info',
                             summary: 'Confirmed',
-                            detail: ' Berhasil di Guillotine',
+                            detail: ' Berhasil di Terima',
                             life: 3000
                         });
                     },
@@ -461,14 +660,16 @@
 
             },
             submitmultipleGudang() {
-                this.$confirm.require({
-                    message: 'Apakah yakin akan dikirim ke Gudang semua?',
-                    header: 'Multiple Gudang Confirmation',
-                    icon: 'pi pi-info-circle',
-                    acceptClass: 'p-button-primary',
-                    accept: () => {
+                // this.$confirm.require({
+                //     message: 'Apakah yakin akan dikirim ke Gudang semua?',
+                //     header: 'Multiple Gudang Confirmation',
+                //     icon: 'pi pi-info-circle',
+                //     acceptClass: 'p-button-primary',
+                //     accept: () => {
 
-                        this.$inertia.post('/submitmultiplegudang', this.selectedDokumens, {
+                        this.$inertia.post('/submitmultiplegudang', [this.selectedDokumens, this
+                            .nosuratString, this.currentIndex
+                        ], {
                             onStart: () => {
                                 this.sending = true
                             },
@@ -500,7 +701,7 @@
                             onFinish: () => {
 
                                 this.sending = false
-
+                                this.download()
                             }
                         })
                         this.$toast.add({
@@ -509,16 +710,16 @@
                             detail: ' Berhasil di Gudang',
                             life: 3000
                         });
-                    },
-                    reject: () => {
-                        this.$toast.add({
-                            severity: 'error',
-                            summary: 'Rejected',
-                            detail: 'You have rejected',
-                            life: 3000
-                        });
-                    }
-                });
+                //     },
+                //     reject: () => {
+                //         this.$toast.add({
+                //             severity: 'error',
+                //             summary: 'Rejected',
+                //             detail: 'You have rejected',
+                //             life: 3000
+                //         });
+                //     }
+                // });
 
             },
             

@@ -53,18 +53,41 @@ class TuController extends Controller
 
         if ($user->isIpds == 1) {
             # code...
-            $dokumens = new Dokumen;
-            $dokumens = $dokumens
-            ->where('status', '<>', 'Gudang')
-            ->where('status' ,'<>', 'Guillotine')
-            ->get();
+            $nogudang_index = [];
+            foreach ($dokumens as $key => $value) {
+       
+                if ($value['nogudang_index'] == NULL) {
+                    array_push($nogudang_index, 0);
+                }else{
+                array_push($nogudang_index, $value['nogudang_index']);
+                }
+            }
 
-            return Inertia::render('Dashboard2', [
-                'dokumens' => $dokumens,
-                'nosuratString' => $nosuratString,
-                'currentIndex' => $currentIndex,
-                'datenow' => $datenow
-            ]);
+            $currentIndex = max($nogudang_index) + 1;
+
+            $month = date('m');
+            $nosuratString ;
+
+                if (strlen($currentIndex) == 1) {
+                    $nosuratString = 'G-00'.$currentIndex.'/BPS-SULTENG/7256/'.$month.'/2021';
+                    
+                } elseif (strlen($currentIndex) == 2) {
+                    $nosuratString = 'G-0'.$currentIndex.'/BPS-SULTENG/7256/'.$month.'/2021';
+                } else{
+                    $nosuratString = 'G-'.$currentIndex.'/BPS-SULTENG/7256/'.$month.'/2021';
+                }
+                    $dokumens = new Dokumen;
+                    $dokumens = $dokumens
+                    ->where('status', '<>', 'Gudang')
+                    ->where('status' ,'<>', 'Guillotine')
+                    ->get();
+
+                    return Inertia::render('Dashboard2', [
+                        'dokumens' => $dokumens,
+                        'nosuratString' => $nosuratString,
+                        'currentIndex' => $currentIndex,
+                        'datenow' => $datenow
+                    ]);
         }
         return Inertia::render('Dashboard', [
             'dokumens' => $dokumens,
